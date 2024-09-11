@@ -1,52 +1,34 @@
-const Animal ={
-    name: "",
-    sound: function(){
-        return "Animal sound";
-    }
+function PizzaOrder(orderId, customerEmail, products){
+    this.orderId = orderId;
+    this.customerEmail = customerEmail;
+    this.products = products;
+    this.deliveryStatus = "in processing";
+}
+
+PizzaOrder.prototype.total = function(){
+    return this.products.reduce((sum, product) => sum + product.price, 0);
 };
 
-const Dog = Object.create(Animal);
-Dog.sound = function(){
-    return "woof!";
+PizzaOrder.prototype.CheckStatusOfDelivery = function(){
+    console.log(`Order #${this.orderId}: Delivery status - ${this.deliveryStatus}`);
 };
 
-const Cat = Object.create(Animal);
-Cat.sound = function(){
-    return "Meow!";
-};
+const pizzaOrder1 = new PizzaOrder(1, "javascript.dog@gmail.com",[
+    {productId: 48, name: "Salyami", price: 5.99, option: ["two cheese"]},
+    {productId: 49, name: "Coca Cola", price: 1.99, option: ["with ice"]},
+]);
 
-const Cow = Object.create(Animal);
-Cow.sound = function(){
-    return "Mooo!";
-};
+const pizzaOrder2 = new PizzaOrder(2, "baclan.banana@gmail.com",[
+    {productId: 50, name: "Caesar", price: 7.99, option: ["cheese sides"]},
+    {productId: 51, name: "Multivitamin juice", price: 2.99, option: ["2 litr"]},
+    {productId: 52, name: "Set Gold Dragon", price: 15.99, option: ["for 6 persons"]},
+]);
 
-const Lion = Object.create(Animal);
-Lion.sound = function(){
-    return "Roar!";
-};
+console.log(`Total order sum #${pizzaOrder1.orderId}: $${pizzaOrder1.total().toFixed(2)}`);
+pizzaOrder1.CheckStatusOfDelivery();
 
-const Elephant = Object.create(Animal);
-Elephant.sound = function(){
-    return "Ugh-ugh!";
-};
+console.log(`Total order sum #${pizzaOrder2.orderId}: $${pizzaOrder2.total().toFixed(2)}`);
+pizzaOrder2.CheckStatusOfDelivery();
 
-const dog = Object.create(Dog);
-dog.name = "Bax";
-
-const cat = Object.create(Cat);
-cat.name = "Mia";
-
-const cow = Object.create(Cow);
-cow.name = "Muha";
-
-const lion = Object.create(Lion);
-lion.name = "Roby";
-
-const elephant = Object.create(Elephant);
-elephant.name = "Rud";
-
-console.log(dog.name + " says: " + dog.sound());
-console.log(cat.name + " says: " + cat.sound());
-console.log(cow.name + " says: " + cow.sound());
-console.log(lion.name + " says: " + lion.sound());
-console.log(elephant.name + " says: " + elephant.sound());
+pizzaOrder1.deliveryStatus = "Delivered";
+pizzaOrder1.CheckStatusOfDelivery();
